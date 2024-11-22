@@ -100,15 +100,19 @@ final class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('task/{id}', name: 'app_task_delete', methods: ['POST'])]
-    public function delete(Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    #[Route('task/delete/{id}', name: 'app_task_delete', methods: ['GET'])]
+    public function delete(int $id, TaskRepository $taskRepository, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($task);
-            $entityManager->flush();
+        $task = $taskRepository->find($id);
+
+        if(!$task) {
+            throw $this->createNotFoundException('Tâche non trouvée.');
         }
 
-        return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        $entityManager->remove($task);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_task_index');
     }
 
     #[Route('/task/toggle/{id}', name: 'app_task_toggle')]
