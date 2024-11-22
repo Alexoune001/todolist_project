@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block titlePage %}Mettre à jour la tâche #{{ task.id }}{% endblock %}
+
+{% block body %}
+
+    {{ include('task/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+{% endblock %}

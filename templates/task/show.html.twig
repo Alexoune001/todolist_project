@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block titlePage %}Détails de la tâche #{{ task.id }}{% endblock %}
+
+{% block body %}
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th>Numéro</th>
+                <td>{{ task.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ task.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ task.description }}</td>
+            </tr>
+            <tr>
+                <th>Statut de la tâche</th>
+                <td>
+                    {{ task.status 
+                        ? '<span class="badge text-bg-success"><i class="bi bi-check-circle"></i> Terminée</span>' 
+                        : '<span class="badge text-bg-warning"><i class="bi bi-arrow-clockwise loading-icon"></i> En attente</span>' 
+                    | raw }}
+                </td>
+            </tr>
+            <tr>
+                <th>Créée le</th>
+                <td>{{ task.createdAt ? task.createdAt|date('d/m/Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_task_edit', {'id': task.id}) }}" class="btn btn-sm btn-primary">Mettre à jour la tâche</a>
+
+{% endblock %}
